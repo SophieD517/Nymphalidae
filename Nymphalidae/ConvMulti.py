@@ -13,7 +13,7 @@ class Cressida(torch.nn.Module):
     self.num_branches = num_branches
     self.branches = []
     
-    for i in self.num_branches:
+    for i in range(self.num_branches):
       self.branches.append(torch.nn.Sequential(
         torch.nn.ReLU(),
         torch.nn.Linear(latent_dim, branch_layer),
