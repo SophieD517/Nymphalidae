@@ -1,6 +1,6 @@
 import torch
 
-class Cressida(torch.nn.Module):
+class Plexippus(torch.nn.Module):
   def __init__(self, latent_dim, ae_layer1, ae_layer2, branch_layer, num_branches):
     super().__init__()
     self.enc_conv1 = torch.nn.Conv1d(in_channels=1, out_channels=ae_layer1, kernel_size=200)
@@ -38,7 +38,11 @@ class Cressida(torch.nn.Module):
     return x
 
   def forward(self, x): 
-    ls = self.encoder(x)
+    try: 
+      ls = self.encoder(x)
+    except:
+      self.enc_conv1 = torch.nn.Conv1d(in_channels=1, out_channels=ae_layer1, kernel_size=x.shape[1])
+      self.dec_lin1 = torch.nn.Linear(ae_layer1, x.shape[1])
     preds = []
     for branch in self.branches:
       preds.append(branch(ls))
