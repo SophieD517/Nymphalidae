@@ -32,7 +32,7 @@ class Cleophile(torch.nn.Module):
       ls = self.encoder(x)
     except:
       self.encoder = torch.nn.Sequential(
-        torch.nn.Linear(x.shape[0], self.ae_layer),
+        torch.nn.Linear(x.shape[1], self.ae_layer),
         torch.nn.ReLU(),
         torch.nn.Linear(self.ae_layer, self.latent_dim)
       )
@@ -40,7 +40,7 @@ class Cleophile(torch.nn.Module):
         torch.nn.ReLU(),
         torch.nn.Linear(self.latent_dim, self.ae_layer),
         torch.nn.ReLU(),
-        torch.nn.Linear(self.ae_layer, x.shape[0])
+        torch.nn.Linear(self.ae_layer, x.shape[1])
       )
     preds = []
     for branch in self.branches:
