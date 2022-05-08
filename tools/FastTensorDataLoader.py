@@ -1,5 +1,5 @@
 # https://github.com/hcarlens/pytorch-tabular/blob/master/fast_tensor_data_loader.py
-class FastTensorDataLoader:
+class DL:
     """
     A DataLoader-like object for a set of tensors that can be much faster than
     TensorDataset + DataLoader because dataloader grabs individual indices of
