@@ -70,7 +70,7 @@ class WorkUnit:
     for i in range(self.num_branches):
       self.loss.append(weights[i]*self.loss_func(preds[i].squeeze(), batch[i].squeeze()))
     
-  def graph_correlation(self, var, name=var, width=0.3):
+  def graph_correlation(self, var, name='hi', width=0.3):
     plt.style.use('seaborn-whitegrid')
     dt = self.test_branches[var]
     pred = self.preds[var]
@@ -78,4 +78,7 @@ class WorkUnit:
     plt.scatter(pred.mul(5).detach().numpy().reshape(-1,), dt.mul(5).detach().numpy().reshape(-1,), color='purple', s=width)
     plt.xlabel('predicted')
     plt.ylabel('actual')
-    plt.title(name + '-value')
+    if name=='hi':
+      plt.title(str(var) + '-value')
+    else:
+      plt.title(name + '-value')
