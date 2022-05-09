@@ -16,7 +16,7 @@ class WorkUnit:
       self.model = Plexippus.FCMulti(latent_dim, ae_layer, branch_layer, 1)
     elif model=='Conv':
       self.model = Plexippus.ConvMulti(latent_dim, ae_layer1, ae_layer2, branch_layer, 1)
-    self.learning_rate, self.num_branches, self.latent_dim = learning_rate, num_branches, latent_dim
+    self.learning_rate, self.latent_dim = learning_rate, latent_dim
     self.optimizer = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
     self.losses = []
 
