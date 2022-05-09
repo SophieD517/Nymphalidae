@@ -35,7 +35,7 @@ class WorkUnit:
           loss = self.loss_func(reconstructed.squeeze(), batch[0].squeeze())
           for i in range(self.num_branches):
             loss.append(weights[i]*self.loss_func(preds[i].squeeze(), batch[i].squeeze())
-        except IndexError:
+        except:
           self.model.num_branches = self.num_branches
         loss.backward(retain_graph=True)
         self.optimizer.step()
