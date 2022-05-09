@@ -6,7 +6,7 @@ import torch
 import seaborn as sns
 import plotly.express as px
 from Nymphalidae.Danaus import Plexippus
-from tools import FastTensorDataLoader
+from Nymphalidae.tools import FastTensorDataLoader
 
 
 class WorkUnit:
