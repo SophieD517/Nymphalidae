@@ -68,7 +68,7 @@ class WorkUnit:
     self.test_ls, self.test_recon, self.preds = latent_space, recon, preds
     self.loss = self.loss_func(reconstructed.squeeze(), batch[0].squeeze())
     for i in range(self.num_branches):
-      self.loss.append(weights[i]*self.loss_func(preds[i].squeeze(), batch[i].squeeze())
+      self.loss.append(weights[i]*self.loss_func(preds[i].squeeze(), batch[i].squeeze()))
     
   def graph_correlation(self, var, name=var, width=0.3):
     plt.style.use('seaborn-whitegrid')
