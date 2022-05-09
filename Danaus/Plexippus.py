@@ -50,7 +50,7 @@ class ConvMulti(torch.nn.Module):
 
   
   
-  class FCMulti(torch.nn.Module):
+class FCMulti(torch.nn.Module):
   def __init__(self, latent_dim, ae_layer, branch_layer, num_branches):
     super().__init__()
     self.latent_dim, self.ae_layer, self.branch_layer = latent_dim, ae_layer, branch_layer
