@@ -26,7 +26,7 @@ class WorkUnit:
     self.batch_size = batch_size
     self.num_branches = branches.shape[1]
     if weights=='hi':
-      self.weights = np.full(shape=branches.shape[1], fill_value=1,dtype=int)
+      weights = np.full(shape=branches.shape[1], fill_value=1,dtype=int)
     assert branches.shape[1]==weights.shape[0], 'weights of wrong size'
     train_batches = FastTensorDataLoader(x, branches, batch_size=batch_size, shuffle=False)
     for epoch in range(epochs):
