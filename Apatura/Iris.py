@@ -30,7 +30,7 @@ class WorkUnit:
     else:
       self.weights=weights
     assert branches.shape[1]==self.weights.shape[0], 'weights of wrong size'
-    train_batches = FastTensorDataLoader(x, branches, batch_size=batch_size, shuffle=False)
+    train_batches = FastTensorDataLoader.DL(x, branches, batch_size=batch_size, shuffle=False)
     for epoch in range(epochs):
       for idx, batch in enumerate(train_batches):
         self.optimizer.zero_grad()
