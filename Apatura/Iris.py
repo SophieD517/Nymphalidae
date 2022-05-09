@@ -5,7 +5,7 @@ import os
 import torch
 import seaborn as sns
 import plotly.express as px
-from Danaus import Plexippus
+from Nymphalidae.Danaus import Plexippus
 from tools import FastTensorDataLoader
 
 
