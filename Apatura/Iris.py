@@ -7,7 +7,6 @@ import seaborn as sns
 import plotly.express as px
 from Nymphalidae.Danaus import Plexippus
 from Nymphalidae.tools import FastTensorDataLoader
-!pip install wandb
 import wandb
 
 
@@ -25,7 +24,7 @@ class WorkUnit:
     self.losses = []
     if self.wandb_ == True:
       import wandb
-      !wandb login
+      #!wandb login
       self.proj = input('project name: ')
       self.ent = input('entity: ')
       wandb.init(project=self.proj, entity=self.ent)
