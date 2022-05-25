@@ -150,7 +150,6 @@ class ConvCalico(torch.nn.Module):
 class Abyssinian:
   def __init__(self, dicty):
     self.dicty = dicty
-    self.model = Calico(dicty['latent_dim'], dicty['ae_layer'], dicty['branch_layer'], dicty['num_vars'])
 
   def train(self, x, a, var, modeltype='conv'):
     if modeltype=='conv':
