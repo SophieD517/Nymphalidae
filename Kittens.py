@@ -155,7 +155,7 @@ class Abyssinian:
   def train(self, x, a, var, modeltype='conv'):
     if modeltype=='conv':
       self.model = ConvCalico(x.shape[1], dicty['latent_dim'], dicty['ae_layer'], dicty['branch_layer'], dicty['num_vars'])
-    elif modeltype=='linear'
+    elif modeltype=='linear':
       self.model = LinCalico(x.shape[1], dicty['latent_dim'], dicty['ae_layer'], dicty['branch_layer'], dicty['num_vars'])
     self.var = var
     wandb.log({'vars': var})
