@@ -138,7 +138,7 @@ class ConvCalico(torch.nn.Module):
         # decoding
         recon = torch.nn.functional.relu(self.dec_conv1(ls))
         recon = torch.nn.functional.relu(self.dec_conv2(recon))
-=        recon = torch.sigmoid(self.dec_lin1(x))
+        recon = torch.sigmoid(self.dec_lin1(x))
         
         #branch
         preds = torch.nn.functional.relu(self.bran_conv1(ls))
