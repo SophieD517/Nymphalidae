@@ -176,7 +176,87 @@ class Abyssinian:
     self.file_path = 'model_' + self.var + '_' + self.dicty['latent_dim']
     torch.save(self.model.state_dict(), self.file_path)
 
-  def test_model(self):
+  def test_model(self, x, a):
     weights = torch.load(self.file_path)
     self.model.load_state_dict(weights)
     self.model.eval()
+    self.ls, self.recon, self.pred = self.model(x)
+    self.x_test = x
+    loss = torch.nn.MSELoss()(self.recon, x) + torch.nn.MSELoss()(self.pred.squeeze(), a.squeeze())
+  
+  def loss_hist(self):
+    losses = []
+    dataloader = DL(self.recon, self.x_test, batch_size=1, shuffle=False)
+    for idx, row in enumerate(dataloader):
+      losses.append(self.loss_func(row))
+    fig, ax = plt.subplots()
+    sns.histplot(data=losses, ax=ax, binwidth=.000003)
+    self.losses = losses
+    #ax.set_xlim(0, .0001)
+    plt.show()
+
+  def graph_correlation(self, t, var, width=.03):
+    plt.style.use('seaborn-whitegrid')
+    if var == 'a':
+      dt = t['A']
+      pred = self.pred[:, :1]
+    elif var == 'b':
+      dt = t['B']
+      pred = self.pred[:, 1:2]
+    elif var == 'h':
+      dt = t['H']
+      pred = self.pred[:, 2:3]
+    elif var == 'k':
+      dt = t['K']
+      pred = self.pred[:, 3:4]
+    plt.plot(dt.detach().numpy().reshape(-1,), dt.detach().numpy().reshape(-1,), color='gray', linewidth=0.1)
+    plt.scatter(pred.detach().numpy().reshape(-1,), dt.detach().numpy().reshape(-1,), color='purple', s=width)
+    plt.xlabel('predicted')
+    plt.ylabel('actual')
+    plt.title(var + '-value')
+
+  def graph_recon(self, sam):
+    plt.style.use('seaborn-whitegrid')
+    fig, ax = plt.subplots(1, 1)
+    x = [x for x in np.arange(-euler, euler, euler/50)]
+    print(x, self.recon)
+    colors = ['mistyrose', '#ccffb3', '#ADD8E6']
+    a = 0
+    for i in sam:
+      plt.plot(x, self.x_test.detach().numpy().tolist()[i], color=colors[a], linewidth=5)
+      a+=1
+    # plt.xlabel('time')
+    # plt.ylabel('sample remaining')
+    colors = ['salmon', 'darkolivegreen', 'darkcyan']
+    a = 0
+    for i in sam:
+      plt.plot(x, self.recon.detach().numpy().tolist()[i], '--', color=colors[a], linewidth=1)
+      a+=1
+    fig.set_size_inches(12, 8)
+    plt.ylim(-1, 1)
+    plt.xlim(-euler, euler-euler/50)
+    plt.show()
+
+  def graph_latent_space(self, t, latent_dim, num_branches):
+    dims = []
+    for dim in range(latent_dim):
+      dims.append([i[dim] for i in self.ls.detach().numpy()])
+
+    if num_branches == 1:
+      if latent_dim==1:
+        fig, axs = plt.subplots(1, 1)
+        axs.scatter(t['A'].detach().numpy(), dims[0], s=0.1, color='blue')
+        axs.set(xlabel='a-value', ylabel='latent_space')
+      else:
+        fig, axs = plt.subplots(1, latent_dim)
+        for dim in range(latent_dim):
+          axs[dim].scatter(t['A'].detach().numpy(), dims[dim], s=0.1, color='blue')
+          axs[dim].set(xlabel='a-value', ylabel='latent_space')
+    else:
+      fig, axs = plt.subplots(num_branches, latent_dim)
+      for dim in range(latent_dim):
+        for bra in range(num_branches):
+          axs[dim, bra].scatter(t['A'].detach().numpy(), dims[dim], s=0.1, color='purple')
+          axs[dim, bra].set(xlabel=str(dim) + 'value', ylabel='latent_space')
+    fig.set_size_inches(latent_dim*5, num_branches*5)
+    plt.style.use('seaborn-whitegrid')
